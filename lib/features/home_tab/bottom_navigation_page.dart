@@ -12,61 +12,46 @@ class _BottomNavigationPageState extends State<BottomNavigationPage> {
   int _selectedIndex = 0;
 
   final List<Widget> _pages = [
-    const HomeTabPage(),
-    const FreeTrailTabPage(),
-    const SearchTabPage(),
-    const MySpaceTabPage(),
+    HomeTabPage(),
+    FreeTrialTabPage(),
+    SearchTabPage(),
+    MySpaceTabPage(),
+  ];
+
+  final List<BottomNavigationBarItem> _navItems = [
+    BottomNavigationBarItem(icon: Icon(Icons.home), label: "Home"),
+    BottomNavigationBarItem(icon: Icon(Icons.diamond_outlined), label: "Free Trial"),
+    BottomNavigationBarItem(icon: Icon(Icons.search), label: "Search"),
+    BottomNavigationBarItem(icon: Icon(Icons.person), label: "My Space"),
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: _pages[_selectedIndex],
+      body: IndexedStack(
+        index: _selectedIndex,
+        children: _pages,
+      ),
       bottomNavigationBar: BottomNavigationBar(
         type: BottomNavigationBarType.fixed,
         currentIndex: _selectedIndex,
-        onTap: (index) {
-          setState(() {
-            _selectedIndex = index;
-          });
-        },
+        onTap: (index) => setState(() => _selectedIndex = index),
         selectedItemColor: Theme.of(context).primaryColor,
         unselectedItemColor: Colors.grey,
-        items: [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: "Home",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.diamond_outlined),
-            label: "Free Trail",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.search),
-            label: "Search",
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person),
-            label: "My Space",
-          ),
-        ],
+        items: _navItems,
       ),
     );
   }
 }
 
-class FreeTrailTabPage extends StatelessWidget {
-  const FreeTrailTabPage({super.key});
-
+class FreeTrialTabPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Center(child: Text("Free Trail Page"));
+    return Center(child: Text("Free Trial Page"));
   }
 }
 
 class SearchTabPage extends StatelessWidget {
-  const SearchTabPage({super.key});
-
   @override
   Widget build(BuildContext context) {
     return Center(child: Text("Search Page"));
@@ -74,8 +59,6 @@ class SearchTabPage extends StatelessWidget {
 }
 
 class MySpaceTabPage extends StatelessWidget {
-  const MySpaceTabPage({super.key});
-
   @override
   Widget build(BuildContext context) {
     return Center(child: Text("Profile Page"));
