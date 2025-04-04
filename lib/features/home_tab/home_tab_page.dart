@@ -77,7 +77,7 @@ class _HomeTabPageState extends State<HomeTabPage> {
       ),
       SizedBox(height: 10,),
       SizedBox(
-        height: 30.1.h,
+        height: 220,
         child: ListView.builder(
           scrollDirection: Axis.horizontal,
           itemCount: 5,

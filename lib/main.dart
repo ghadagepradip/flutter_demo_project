@@ -6,6 +6,8 @@ import 'package:adaptive_theme/adaptive_theme.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 import 'package:get/get.dart';
 
+import 'features/login_pages/login_screen.dart';
+
 void main() {
   runApp(const MyApp());
 }
@@ -37,7 +39,7 @@ class MyApp extends StatelessWidget {
                   debugShowCheckedModeBanner: false,
                   title: 'Audio Book',
                   theme: theme,
-                  home: BottomNavigationPage(),
+                  home: LoginScreen(),
                   builder: (context, child) {
                     SizeConfig.init(context);
                     return MediaQuery(
