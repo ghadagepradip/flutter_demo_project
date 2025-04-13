@@ -1,3 +1,4 @@
+import 'package:demo_project/features/free_trail_tab/free_trail_page.dart';
 import 'package:demo_project/features/home_tab/home_tab_page.dart';
 import 'package:flutter/material.dart';
 
@@ -13,7 +14,7 @@ class _BottomNavigationPageState extends State<BottomNavigationPage> {
 
   final List<Widget> _pages = [
     HomeTabPage(),
-    FreeTrialTabPage(),
+    FreeTrailPage(),
     SearchTabPage(),
     MySpaceTabPage(),
   ];
@@ -41,13 +42,6 @@ class _BottomNavigationPageState extends State<BottomNavigationPage> {
         items: _navItems,
       ),
     );
-  }
-}
-
-class FreeTrialTabPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Center(child: Text("Free Trial Page"));
   }
 }
 

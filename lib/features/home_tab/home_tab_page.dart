@@ -14,6 +14,12 @@ class HomeTabPage extends StatefulWidget {
 
 class _HomeTabPageState extends State<HomeTabPage> {
   @override
+  void initState() {
+    super.initState();
+    // TODO: Implement API call here to fetch book categories and book lists
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black,
@@ -23,32 +29,24 @@ class _HomeTabPageState extends State<HomeTabPage> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               CustomAppBarWidget(
-                onTapCallBack: (){
-                  Navigator.of(context).push(MaterialPageRoute(builder: (context)=>SearchResultPage()));
+                onTapCallBack: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => const SearchResultPage()),
+                  );
                 },
                 isEnabled: true,
               ),
-              
+
               Image.asset("assets/home_tab_assets/home_backgroung.png"),
 
-              SizedBox(height: 20,),
-              SizedBox(
-                height: 188,
-                child: ListView.builder(
-                  itemCount: 4,
-                    shrinkWrap: true,
-                    scrollDirection: Axis.horizontal,
-                    itemBuilder: (context,index){
-                      return BookCategoryItemWidget();
-                    }
-                ),
-              ),
-              SizedBox(height: 20,),
-              bookListItemWidget(),
-              SizedBox(height: 20,),
-              bookListItemWidget(),
-              SizedBox(height: 10,),
-              subscriptionBanner(),
+              const SizedBox(height: 20),
+              buildBookCategories(),
+              const SizedBox(height: 20),
+              buildBookSection(title: "Popular"),
+              const SizedBox(height: 20),
+              buildBookSection(title: "Recommended"),
+              const SizedBox(height: 10),
+              buildSubscriptionBanner(),
             ],
           ),
         ),
@@ -56,102 +54,130 @@ class _HomeTabPageState extends State<HomeTabPage> {
     );
   }
 
-  Widget bookListItemWidget()=>Column(
-    children: [
-      InkWell(
-        onTap: (){
+  Widget buildBookCategories() {
+    return SizedBox(
+      height: 188,
+      child: ListView.builder(
+        itemCount: 4, // Ideally, this should be fetched from API
+        shrinkWrap: true,
+        scrollDirection: Axis.horizontal,
+        itemBuilder: (context, index) => const BookCategoryItemWidget(),
+      ),
+    );
+  }
 
-        },
-        child: Padding(
+  Widget buildBookSection({required String title}) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
           padding: EdgeInsets.symmetric(horizontal: 2.w),
-          child: Row(
-            children: [
-              Text("Popular",style: TextStyle(fontSize: 20,color: Colors.white,fontWeight: FontWeight.w400),),
-              Spacer(),
-              Text("Show all",style: TextStyle(fontSize: 15,color: Colors.white),),
-              SizedBox(width: 4,),
-              Icon(Icons.arrow_forward_ios,color: Colors.white,size: 18,)
-            ],
+          child: InkWell(
+            onTap: () {
+              // TODO: Navigate to category detail page or show all books
+            },
+            child: Row(
+              children: [
+                Text(
+                  title,
+                  style: const TextStyle(
+                    fontSize: 20,
+                    color: Colors.white,
+                    fontWeight: FontWeight.w400,
+                  ),
+                ),
+                const Spacer(),
+                const Text(
+                  "Show all",
+                  style: TextStyle(fontSize: 15, color: Colors.white),
+                ),
+                const SizedBox(width: 4),
+                const Icon(Icons.arrow_forward_ios, color: Colors.white, size: 18),
+              ],
+            ),
           ),
         ),
-      ),
-      SizedBox(height: 10,),
-      SizedBox(
-        height: 220,
-        child: ListView.builder(
-          scrollDirection: Axis.horizontal,
-          itemCount: 5,
-          shrinkWrap: true,
-          itemBuilder: (context, index) {
-            return Padding(
-              padding: const EdgeInsets.only(right: 6),
+        const SizedBox(height: 10),
+        SizedBox(
+          height: 220,
+          child: ListView.builder(
+            scrollDirection: Axis.horizontal,
+            itemCount: 5, // Ideally fetched from API
+            shrinkWrap: true,
+            itemBuilder: (context, index) => const Padding(
+              padding: EdgeInsets.only(right: 6),
               child: BookListItemWidget(),
-            );
-          },
+            ),
+          ),
         ),
-      )
-
-    ],
-  );
-
-  Widget subscriptionBanner() => Container(
-    width: double.infinity,
-    padding: const EdgeInsets.all(20),
-    margin: EdgeInsets.symmetric(horizontal: 5.w,vertical: 2.h),
-    decoration: BoxDecoration(
-      color: Colors.grey[900],
-      borderRadius: BorderRadius.circular(10),
-    ),
-    child: Stack(
-      alignment: Alignment.topLeft,
-      children: [
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text("Get unlimited access to\nbooks in just", style: TextStyle(color: Theme.of(context).colorScheme.onPrimary,fontSize: 19,fontWeight: FontWeight.w500)),
-            SizedBox(height: 10),
-            Text("\$9.99", style: TextStyle(color: Colors.green.shade200,fontSize: 30,fontWeight: FontWeight.w600)),
-            SizedBox(height: 20),
-          ],
-        ),
-        Positioned(
-          right: 0,
-            bottom: 0,
-            child: bookImageWidget())
       ],
-    ),
-  );
+    );
+  }
 
-  Widget bookImageWidget() => Row(
-    crossAxisAlignment: CrossAxisAlignment.end,
-    spacing: 4,
-    children: [
-      SizedBox(
-        height: 50,
-        width: 45,
-        child: Image.asset(
-          "assets/home_tab_assets/book_cover.png",
-          fit: BoxFit.cover,
-        ),
+  Widget buildSubscriptionBanner() {
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(20),
+      margin: EdgeInsets.symmetric(horizontal: 5.w, vertical: 2.h),
+      decoration: BoxDecoration(
+        color: Colors.grey[900],
+        borderRadius: BorderRadius.circular(10),
       ),
-      SizedBox(
-        height: 60,
-        width: 55,
-        child: Image.asset(
-          "assets/home_tab_assets/book_cover.png",
-          fit: BoxFit.cover,
-        ),
+      child: Stack(
+        alignment: Alignment.topLeft,
+        children: [
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                "Get unlimited access to\nbooks in just",
+                style: TextStyle(
+                  color: Theme.of(context).colorScheme.onPrimary,
+                  fontSize: 19,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+              const SizedBox(height: 10),
+              Text(
+                "\$9.99",
+                style: TextStyle(
+                  color: Colors.green.shade200,
+                  fontSize: 30,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+              const SizedBox(height: 20),
+            ],
+          ),
+          Positioned(
+            right: 0,
+            bottom: 0,
+            child: buildBookStackImage(),
+          ),
+        ],
       ),
-      SizedBox(
-        height: 70,
-        width: 60,
-        child: Image.asset(
-          "assets/home_tab_assets/book_cover.png",
-          fit: BoxFit.cover,
-        ),
-      ),
-    ],
-  );
+    );
+  }
 
+  Widget buildBookStackImage() {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.end,
+      children: [
+        buildBookImage(45, 50),
+        buildBookImage(55, 60),
+        buildBookImage(60, 70),
+      ],
+    );
+  }
+
+  Widget buildBookImage(double width, double height) {
+    return SizedBox(
+      width: width,
+      height: height,
+      child: Image.asset(
+        "assets/home_tab_assets/book_cover.png",
+        fit: BoxFit.cover,
+      ),
+    );
+  }
 }
-
